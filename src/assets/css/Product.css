@@ -1,0 +1,22 @@
+.product-summary {
+  position: relative;
+  z-index: 0;
+
+  background-color: #fffcf5;
+  padding: 2rem;
+  border-radius: 5px;
+}
+.product-summary::before {
+  position: absolute;
+  font: var(--fa-font-solid);
+  font-size: 5rem;
+  content: "\f10d";
+  z-index: -1;
+  left: -2rem;
+  top: -2rem;
+  color: rgba(255, 166, 0, 0.2);
+}
+
+.product-details {
+  background-color: #fffcf5;
+}

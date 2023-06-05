@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "usuario": "goodreads",
+    "libro": "La tregua",
+    "autor": "Mario Benedetti",
+    "cover": "https://ia804701.us.archive.org/view_archive.php?archive=/24/items/olcovers105/olcovers105.zip&file=1051829.jpg",
+    "estado": "nuevo",
+    "editorial": "Editorial Sudamericana",
+    "paginas": 200,
+    "idioma": "Español",
+    "stock": 1,
+    "precio": 12000,
+    "descripcion": "Martin Santome, un viudo de cuarenta y nueve anos con tres hijos, conoce en su trabajo a Laura Avellaneda, una muchacha mucho mas joven que el. La historia del amor de estas dos personas es tan conmovedora y real que La tregua, una novela con mas de 145 ediciones, ocupa ya un lugar de privilegio entre los clasicos de la narrativa latinoamericana."
+  },
+  {
+    "id": 2,
+    "usuario": "matiasRobledoLibros",
+    "libro": "La tregua",
+    "autor": "Mario Benedetti",
+    "cover": "https://covers.openlibrary.org/b/id/13952309.jpg",
+    "estado": "nuevo",
+    "editorial": "Alfaguara",
+    "paginas": 200,
+    "idioma": "Español",
+    "stock": 3,
+    "precio": 12000,
+    "descripcion": "Una novela sobre la soledad y la incomunicación, el amor y la sexualidad, la muerte y los problemas políticos. Martín Santomé, viudo con tres hijos, en las vísperas de su jubilación comienza a registrar en un diario su vida gris y sin relieve. La vida cotidiana de la rutina en la oficina y la de un hogar desunido y crispado se verán alteradas cuando irrumpe en su rutina la joven Laura Avellaneda, su nueva empleada. Y este hombre, casi sin proponérselo, decide abrir en su vida un paréntesis luminoso. La tregua se ha traducido a decenas de idiomas y ha sido adaptad al cine, la televisión, el teatro y la radio, pero que sobre todo ha gozado de la excepcional acogida de los lectores de todo el mundo."
+  },
+  {
+    "id": 3,
+    "usuario": "readingSP",
+    "libro": "La tregua",
+    "autor": "Mario Benedetti",
+    "cover": "https://ia800307.us.archive.org/view_archive.php?archive=/0/items/olcovers229/olcovers229.zip&file=2295271.jpg",
+    "estado": "usado",
+    "editorial": "Alfaguara",
+    "paginas": 200,
+    "idioma": "Español",
+    "stock": 1,
+    "precio": 8000,
+    "descripcion": "Una novela sobre la soledad y la incomunicación, el amor y la sexualidad, la muerte y los problemas políticos. Martín Santomé, viudo con tres hijos, en las vísperas de su jubilación comienza a registrar en un diario su vida gris y sin relieve. La vida cotidiana de la rutina en la oficina y la de un hogar desunido y crispado se verán alteradas cuando irrumpe en su rutina la joven Laura Avellaneda, su nueva empleada. Y este hombre, casi sin proponérselo, decide abrir en su vida un paréntesis luminoso. La tregua se ha traducido a decenas de idiomas y ha sido adaptad al cine, la televisión, el teatro y la radio, pero que sobre todo ha gozado de la excepcional acogida de los lectores de todo el mundo. ENGLISH DESCRIPTION Just before his retirement, Martín Santomé, a widower with three children, starts to document his dull grey life in a diary. The everyday routine at the office and in a tense, conflictfilled home starts to change with the arrival of young Laura Avellana, his new employee. And this man, almost without meaning to, decides to begin a luminous new chapter in his life. The Truce has been translated to dozens of languages and has been adapted for movies, television, and radio, but above all has enjoyed exceptional acclaim by readers around the world."
+  },
+  {
+    "id": 4,
+    "usuario": "goodreads",
+    "libro": "El túnel",
+    "autor": "Ernesto Sabato",
+    "cover": "https://covers.openlibrary.org/b/id/12390154-L.jpg",
+    "estado": "nuevo",
+    "editorial": "Macmillan",
+    "paginas": 124,
+    "idioma": "Español",
+    "stock": 1,
+    "precio": 9000,
+    "descripcion": "Sin descripción"
+  },
+  {
+    "id": 5,
+    "usuario": "readingSP",
+    "libro": "El Guardian Entre el Centeno",
+    "autor": "Jerome D. Salinger",
+    "cover": "https://images.cdn1.buscalibre.com/fit-in/360x360/db/1b/db1b420c41d03c039f4442a962471767.jpg",
+    "estado": "nuevo",
+    "editorial": "Edhasa literaria",
+    "paginas": 276,
+    "idioma": "Español",
+    "stock": 1,
+    "precio": 34840,
+    "descripcion": "El guardián entre el centeno es sin lugar a dudas una obra cumbre de la literatura del siglo XX. Jerome David Salinger, el mítico escritor norteamericano, debe su celebridad a esta novela, publicada en 1951, y a su protagonista, Holden Caulfield, que se convirtió en el arquetipo del adolescente rebelde e hipercrítico del mundo artificial y conformista de los adultos. Salinger ilustra magistralmente las reflexiones y frustraciones de la adolescencia en ... Ver más Ocultar El guardián entre el centeno es sin lugar a dudas una obra cumbre de la literatura del siglo XX. Jerome David Salinger, el mítico escritor norteamericano, debe su celebridad a esta novela, publicada en 1951, y a su protagonista, Holden Caulfield, que se convirtió en el arquetipo del adolescente rebelde e hipercrítico del mundo artificial y conformista de los adultos. Salinger ilustra magistralmente las reflexiones y frustraciones de la adolescencia en una sociedad frívola e hipócrita. Holden, 17 años, después de evadirse de su claustrofóbica escuela, recorre una Nueva York helada y hostil, intentando encontrar un sentido a su vida. El guardián entre el centeno es sin lugar a dudas una obra cumbre de la literatura del siglo XX. Jerome David Salinger, el mítico escritor norteamericano, debe su celebridad a esta novela, publicada en 1951, y a su protagonista, Holden Caulfield, que se convirtió en el arquetipo del adolescente rebelde e hipercrítico del mundo artificial y conformista de los adultos. Salinger ilustra magistralmente las reflexiones y frustraciones de la adolescencia en una sociedad frívola e hipócrita. Holden, 17 años, después de evadirse de su claustrofóbica escuela, recorre una Nueva York helada y hostil, intentando encontrar un sentido a su vida."
+  }
+]

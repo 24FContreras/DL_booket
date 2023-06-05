@@ -1,0 +1,16 @@
+//OVERWRITES
+$primary: #ffcd61;
+
+
+$custom-theme-colors: (
+  "new": rgb(66, 19, 126)
+);
+
+@import "../../../node_modules/bootstrap/scss/_functions";
+@import "../../../node_modules/bootstrap/scss/_variables";
+
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+
+// BOOTSTRAP
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss"
+

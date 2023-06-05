@@ -1,0 +1,32 @@
+.products-wrapper {
+  min-height: calc(100vh - 3.5rem);
+  max-width: 100%;
+  display: grid;
+
+  grid-template-areas:
+    "barra barra barra barra barra"
+    "filtros main main main main";
+  grid-template-rows: 3rem 1fr;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.products-bar {
+  grid-area: barra;
+}
+
+.products-filters {
+  grid-area: filtros;
+}
+
+.products-main {
+  max-width: 100%;
+  grid-area: main;
+  padding: 2rem;
+}
+
+.products-grid {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
