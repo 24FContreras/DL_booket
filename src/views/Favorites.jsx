@@ -20,7 +20,9 @@ const Favorites = () => {
           {favorites.length ? (
             favorites.map((item) => (
               <ProductListing item={item} key={item.id} type="favorite">
-                <button className="btn btn-primary">Ver en tienda</button>
+                <Link className="btn btn-primary" to={`/products/${item.id}`}>
+                  Ver en tienda
+                </Link>
               </ProductListing>
             ))
           ) : (

@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react";
 
 export const SessionContext = createContext();
 
-//FAKE USER FOR TESTINGS
 const emptySession = {
   userName: "",
   email: "",

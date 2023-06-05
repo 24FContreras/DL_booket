@@ -18,7 +18,9 @@ const MyProducts = () => {
             myproducts.map((item) => (
               <ProductListing item={item} key={item.id} type="product">
                 <button className="btn btn-primary">Editar</button>{" "}
-                <button className="btn btn-primary">Ver en tienda</button>
+                <Link className="btn btn-primary" to={`/products/${item.id}`}>
+                  Ver en tienda
+                </Link>
               </ProductListing>
             ))
           ) : (

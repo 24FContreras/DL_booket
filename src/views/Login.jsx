@@ -2,12 +2,9 @@ import "../assets/css/Login.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSessionContext } from "../context/sessionContext";
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const { session, setSession } = useSessionContext();
 
   const [login, setLogin] = useState({
     loginEmail: "",
