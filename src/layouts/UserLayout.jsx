@@ -1,24 +1,21 @@
+import axios from "axios";
 import "../assets/css/UserLayout.css";
 import { Outlet, Navigate, NavLink, useLoaderData } from "react-router-dom";
 import { useSessionContext } from "../context/sessionContext";
 import { useEffect } from "react";
 
 const UserLayout = () => {
-  const { session, setSession } = useSessionContext();
-  const { data: datosUser } = useLoaderData();
-
   const token = localStorage.getItem("token");
 
+  const { data: datosUser } = useLoaderData();
+  const { session, setSession } = useSessionContext(datosUser);
+
   useEffect(() => {
-    if (token) setSession(datosUser);
+    if (datosUser) setSession(datosUser[0]);
   }, []);
 
   const handleLogout = () => {
-    setSession({
-      userName: "",
-      email: "",
-      favorites: [],
-    });
+    setSession(false);
 
     localStorage.removeItem("token");
   };
@@ -91,7 +88,19 @@ export default UserLayout;
 
 //
 export const loaderUser = async () => {
-  const res = await fetch("http://localhost:5173/src/data/user.json");
-  const data = await res.json();
-  return { data };
+  const token = localStorage.getItem("token");
+
+  try {
+    const { data } = await axios.get(
+      "https://booketapi.onrender.com/api/user",
+      {
+        headers: { Authorization: "Bearer " + token },
+      }
+    );
+
+    return { data };
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };

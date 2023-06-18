@@ -13,19 +13,16 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
-  /* VARIABLES */
-  --gold: #ffcd61;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
   min-height: 100vh;
   max-width: 100%;
 }
 
 .navbar {
-  height: 3.5rem;
+  min-height: 3.5rem;
 }
 
 .profile-icon {
@@ -40,9 +37,27 @@ body {
 }
 
 .profile-icon .active i {
-  color: var(--gold);
+  color: #ffcd55;
 }
 
 .profile-icon:hover i {
-  color: var(--gold);
+  color: #ffcd55;
+}
+
+.loader-fade {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #24242459;
+  z-index: 10000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.height-content {
+  height: fit-content;
 }

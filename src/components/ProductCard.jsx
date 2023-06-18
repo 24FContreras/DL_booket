@@ -3,18 +3,23 @@ import { Link } from "react-router-dom";
 import { utils } from "../utils";
 
 const ProductCard = ({ book }) => {
-  const { libro, autor, precio, editorial, estado, cover, id } = book;
+  const { titulo, autor, precio, editorial, estado, portada, id } = book;
+
   return (
     <div className="product-card">
       <div className="product-card-header">
-        <img src={cover} alt={libro} className="shadow-sm" />
+        <img
+          src={`https://booketapi.onrender.com/images/books/${portada}`}
+          alt={titulo}
+          className="shadow-sm"
+        />
         <div className="product-deco"></div>
       </div>
 
       <div className="product-card-body shadow-sm bg-white p-4">
         <div className="d-flex flex-row justify-content-between gap-3">
           <div>
-            <p className="fw-semibold m-0 text-uppercase fs-5">{libro}</p>
+            <p className="fw-semibold m-0 text-uppercase fs-5">{titulo}</p>
             <p className="fw-light m-0">{autor}</p>
             <p className="fw-light my-1 text-details">
               Editorial {editorial} - {estado}

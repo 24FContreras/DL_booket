@@ -1,32 +1,42 @@
 import "../assets/css/Login.css";
-
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSessionContext } from "../context/sessionContext";
+import axios from "axios";
 
 const Login = () => {
+  const { session, setSession } = useSessionContext();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({
-    loginEmail: "",
-    loginPassword: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!login.loginEmail.trim() || !login.loginPassword.trim()) {
-      alert("Usuario incorrecto");
-      return;
+    try {
+      if (!login.email.trim() || !login.password.trim()) {
+        alert("Debe rellenar todos los campos");
+        return;
+      }
+
+      const { data: token } = await axios.post(
+        "https://booketapi.onrender.com/api/login",
+        login
+      );
+
+      localStorage.setItem("token", token);
+      setSession(true);
+      navigate("/profile");
+    } catch ({ response: { data: error } }) {
+      alert(error.message);
     }
-
-    alert("Bienvenido!");
-
-    localStorage.setItem("token", "placeholdertoken");
-    navigate("/profile");
   };
 
   return (
@@ -48,8 +58,7 @@ const Login = () => {
             <input
               type="email"
               className="form-control"
-              id="loginEmail"
-              name="loginEmail"
+              name="email"
               placeholder="tucorreo@mail.com"
               value={login.loginEmail}
               onChange={handleChange}
@@ -63,8 +72,7 @@ const Login = () => {
             <input
               type="password"
               className="form-control"
-              id="loginPassword"
-              name="loginPassword"
+              name="password"
               placeholder="**********"
               value={login.loginPassword}
               onChange={handleChange}
@@ -76,7 +84,10 @@ const Login = () => {
           </button>
         </form>
 
-        <Link className="d-block text-center" to="/register">
+        <Link
+          className="d-block text-center link-secondary link-underline link-underline-opacity-0"
+          to="/register"
+        >
           ¿No tienes una cuenta? Regístrate aquí
         </Link>
       </main>

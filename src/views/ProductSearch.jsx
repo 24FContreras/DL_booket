@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "../assets/css/Products.css";
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useSearchParams } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
 
-const Products = () => {
+const ProductSearch = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
 
   const { data } = useLoaderData();
@@ -39,9 +40,23 @@ const Products = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(search);
+    try {
+      if (search) {
+        setSearchParams({ busqueda: search });
+
+        const res = await fetch(
+          "https://booketapi.onrender.com/api/products/search?search=titulo_" +
+            search
+        );
+        const data = await res.json();
+
+        setLibros(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -57,8 +72,8 @@ const Products = () => {
             type="search"
             placeholder="Busqueda por título"
             aria-label="Search"
-            value={search}
             onChange={handleSearchChange}
+            value={search}
           />
           <button className="btn btn-dark" type="submit">
             Buscar
@@ -126,7 +141,7 @@ const Products = () => {
                 return <ProductCard key={item.id} book={item} />;
               })
           ) : (
-            <p>Loading</p>
+            <p>No existen libros disponibles</p>
           )}
         </section>
       </main>
@@ -134,15 +149,4 @@ const Products = () => {
   );
 };
 
-export default Products;
-
-//LOADER
-export const loaderBooks = async () => {
-  try {
-    const res = await fetch("https://booketapi.onrender.com/api/products");
-    const data = await res.json();
-    return { data };
-  } catch (error) {
-    console.log(error);
-  }
-};
+export default ProductSearch;

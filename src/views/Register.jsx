@@ -1,5 +1,7 @@
 import "../assets/css/Register.css";
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [register, setRegister] = useState({
@@ -9,8 +11,38 @@ const Register = () => {
     registerRepass: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setRegister({ ...register, [e.target.name]: e.target.value });
+  };
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+
+    console.log("submit");
+
+    const {
+      registerEmail: email,
+      registerUsername: username,
+      registerPass: password,
+    } = register;
+
+    const nuevoUsuario = { email, username, password };
+
+    console.log(nuevoUsuario);
+
+    try {
+      await axios.post(
+        "https://booketapi.onrender.com/api/register",
+        nuevoUsuario
+      );
+      alert("Usuario registrado con éxito");
+      navigate("/login");
+    } catch (error) {
+      alert("Algo salió mal ...");
+      console.log(error);
+    }
   };
 
   return (
@@ -19,7 +51,7 @@ const Register = () => {
         <section className="register-image col "></section>
         <section className="col p-4">
           <h1 className="mb-4">Regístrate</h1>
-          <form className="row row-cols-2 g-4">
+          <form className="row row-cols-2 g-4" onSubmit={handlesubmit}>
             <div className="col">
               <label htmlFor="registerEmail" className="form-label">
                 Correo electrónico
@@ -27,7 +59,6 @@ const Register = () => {
               <input
                 type="email"
                 className="form-control"
-                id="registerEmail"
                 name="registerEmail"
                 placeholder="tucorreo@mail.com"
                 value={register.registerEmail}
@@ -40,11 +71,10 @@ const Register = () => {
                 Username
               </label>
               <input
-                type="email"
+                type="text"
                 className="form-control"
-                id="registerUsername"
                 name="registerUsername"
-                placeholder="usuario12"
+                placeholder="nombre de usuario"
                 value={register.registerUsername}
                 onChange={handleChange}
               />
@@ -57,7 +87,6 @@ const Register = () => {
               <input
                 type="password"
                 className="form-control"
-                id="registerPass"
                 name="registerPass"
                 placeholder="********"
                 value={register.registerPass}
@@ -72,7 +101,6 @@ const Register = () => {
               <input
                 type="password"
                 className="form-control"
-                id="registerRepass"
                 name="registerRepass"
                 placeholder="********"
                 value={register.registerRepass}

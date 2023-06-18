@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "../assets/css/Products.css";
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useSearchParams } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
 
 const Products = () => {
-  const [search, setSearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState();
 
   const { data } = useLoaderData();
   const [libros, setLibros] = useState(data);
@@ -25,10 +26,6 @@ const Products = () => {
     return counter;
   };
 
-  const handleSearchChange = (e) => {
-    setSearch(e.target.value);
-  };
-
   const handleCheckbox = (e) => {
     if (e.target.checked) {
       setFilters([...filters, e.target.value]);
@@ -39,26 +36,15 @@ const Products = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(search);
-  };
-
   return (
     <div className="products-wrapper bg-secondary-subtle">
       <section className="container-fluid products-bar bg-primary d-flex align-items-center">
-        <form
-          className="d-flex justify-content-center"
-          role="search"
-          onSubmit={handleSubmit}
-        >
+        <form className="d-flex justify-content-center" role="search">
           <input
             className="form-control me-2 rounded-pill"
             type="search"
-            placeholder="Busqueda por título"
+            placeholder="Search"
             aria-label="Search"
-            value={search}
-            onChange={handleSearchChange}
           />
           <button className="btn btn-dark" type="submit">
             Buscar

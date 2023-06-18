@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./assets/sass/custom.css";
 import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
+import "animate.css";
 
 //ROUTER
 import { RouterProvider } from "react-router-dom";

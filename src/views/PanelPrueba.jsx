@@ -1,15 +1,12 @@
-import "../assets/css/Profile.css";
-import axios from "axios";
 import { useState } from "react";
-import { useSessionContext } from "../context/sessionContext";
+import axios from "axios";
 
-const Profile = () => {
-  const { session, setSession } = useSessionContext();
-  const [avatar, setAvatar] = useState({});
+const PanelPrueba = () => {
+  const [image, setImage] = useState({});
   const token = localStorage.getItem("token");
 
   const handleUpload = (e) => {
-    setAvatar(e.target.files[0]);
+    setImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -18,10 +15,10 @@ const Profile = () => {
     try {
       const formData = new FormData();
       formData.append("email", "correo1@gmail.com");
-      formData.append("image", avatar);
+      formData.append("image", image);
 
       axios({
-        url: "https://booketapi.onrender.com/api/profile",
+        url: "https://booketapi.onrender.com/api/test",
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -35,17 +32,6 @@ const Profile = () => {
 
   return (
     <>
-      <div className="d-flex align-items-end gap-2">
-        <img
-          src={`https://booketapi.onrender.com/images/avatars/${session.avatar}`}
-          className="profile-avatar"
-          alt="avatar"
-        />
-        <div>
-          <h1 className="m-0">Bienvenido {session.username}</h1>
-        </div>
-      </div>
-
       <form method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="mb-3">
           <input
@@ -63,4 +49,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default PanelPrueba;

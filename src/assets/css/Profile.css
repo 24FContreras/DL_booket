@@ -1,8 +1,11 @@
 .profile-avatar {
-  width: 4rem;
-  height: 4rem;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 100%;
-  border: solid 4px var(--gold);
+  border: solid 4px #ffcd55;
+
+  object-fit: cover;
+  object-position: center;
 }
 
 .profile-avatar img {

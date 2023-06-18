@@ -6,6 +6,7 @@ import Landing from "../views/Landing";
 import Register from "../views/Register";
 import Login from "../views/Login";
 import Products, { loaderBooks } from "../views/Products";
+import ProductSearch from "../views/ProductSearch";
 import Product, { loaderBook } from "../views/Product";
 import NotFound from "../views/NotFound";
 
@@ -13,7 +14,9 @@ import NotFound from "../views/NotFound";
 import Profile from "../views/Profile";
 import MyProducts, { loaderProds } from "../views/MyProducts";
 import CreateProduct from "../views/CreateProduct";
-import Favorites from "../views/Favorites";
+import Favorites, { loaderFavoritos } from "../views/Favorites";
+import PanelPrueba from "../views/PanelPrueba";
+import EditProduct, { loaderUserProd } from "../views/EditProduct";
 
 //LAYOUTS
 import RootLayout from "../layouts/RootLayout";
@@ -29,12 +32,23 @@ export const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
       { path: "/login", element: <Login /> },
       { path: "/products", element: <Products />, loader: loaderBooks },
+      {
+        path: "/search",
+        element: <ProductSearch />,
+        loader: loaderBooks,
+      },
       { path: "/products/:id", element: <Product />, loader: loaderBook },
       {
         path: "/profile",
         element: <UserLayout />,
         loader: loaderUser,
-        children: [{ index: true, element: <Profile /> }],
+        children: [
+          { index: true, element: <Profile /> },
+          {
+            path: "/profile/testing",
+            element: <PanelPrueba />,
+          },
+        ],
       },
       {
         path: "/publicaciones",
@@ -53,7 +67,12 @@ export const router = createBrowserRouter([
           {
             path: "/publicaciones/favoritos",
             element: <Favorites />,
-            loader: loaderProds,
+            loader: loaderFavoritos,
+          },
+          {
+            path: "/publicaciones/mispublicaciones/editar/:id",
+            element: <EditProduct />,
+            loader: loaderUserProd,
           },
         ],
       },

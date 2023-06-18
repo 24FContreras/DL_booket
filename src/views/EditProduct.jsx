@@ -1,26 +1,30 @@
-import { useState } from "react";
-import { useSessionContext } from "../context/sessionContext";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 
-const CreateProduct = () => {
+const EditProduct = () => {
   const templateProducto = {
     titulo: "",
     autor: "",
-    cover: "",
-    estado: "nuevo",
+    estado: "",
     editorial: "",
-    encuadernacion: "tapa dura",
+    encuadernacion: "",
     paginas: "",
     idioma: "",
     stock: "",
     precio: "",
-    descripcion: "El vendedor no ha agregado una descripción",
+    descripcion: "",
   };
 
-  const { session, setSession } = useSessionContext();
+  const { data } = useLoaderData();
   const [nuevoLibro, setNuevoLibro] = useState(templateProducto);
   const token = localStorage.getItem("token");
+  const { id } = useParams();
+
+  useEffect(() => {
+    setNuevoLibro(data[0]);
+  }, []);
 
   const handleChange = (e) => {
     setNuevoLibro({ ...nuevoLibro, [e.target.name]: e.target.value });
@@ -33,36 +37,34 @@ const CreateProduct = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmitData = async (e) => {
     try {
       e.preventDefault();
       const bookData = new FormData(); //URLSearchParams();
 
-      if (Object.values(nuevoLibro).some((item) => item === "")) {
+      if (
+        Object.values(nuevoLibro).some((item) => item.toString().trim() === "")
+      ) {
         alert("Debes rellenar todos los campos");
         return;
       }
 
       for (const key in nuevoLibro) {
-        if (key !== "cover" && nuevoLibro[key].trim() !== "") {
-          bookData.append(key, nuevoLibro[key]);
-        }
+        bookData.append(key, nuevoLibro[key]);
       }
 
-      if (nuevoLibro.cover) {
-        bookData.append("image", nuevoLibro.cover);
-      }
-
-      bookData.append("vendedor", session.email);
+      const endpoint = "https://booketapi.onrender.com/api/products/edit/" + id;
 
       const res = await axios({
-        url: "https://booketapi.onrender.com/api/products",
-        method: "POST",
+        url: endpoint,
+        method: "PUT",
         headers: {
           Authorization: "Bearer " + token,
         },
         data: bookData,
       });
+
+      console.log(bookData);
 
       toast.success(res.data.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -76,11 +78,11 @@ const CreateProduct = () => {
 
   return (
     <>
-      <h1 className="fs-3">Crear publicación</h1>
+      <h1 className="fs-3">Editando "{nuevoLibro.titulo}"</h1>
 
       <form
         className="d-flex flex-column mb-4"
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitData}
         method="POST"
       >
         <div className="row row-cols-1 row-cols-md-2 g-3">
@@ -169,17 +171,7 @@ const CreateProduct = () => {
               </select>
             </label>
           </div>
-          <div className="col">
-            <label className="w-100">
-              Portada
-              <input
-                className="form-control"
-                type="file"
-                name="cover"
-                onChange={handleCover}
-              />
-            </label>
-          </div>
+
           <div className="col">
             <label className="w-100">
               Idioma
@@ -219,6 +211,22 @@ const CreateProduct = () => {
               />
             </label>
           </div>
+
+          <div className="col">
+            <label className="w-100">
+              Estado
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                name="activo"
+                value={nuevoLibro.activo}
+                onChange={handleChange}
+              >
+                <option value="true">Activado</option>
+                <option value="false">Desactivado</option>
+              </select>
+            </label>
+          </div>
         </div>
 
         <div className="row">
@@ -236,7 +244,7 @@ const CreateProduct = () => {
         </div>
 
         <button type="submit" className="btn btn-primary mt-3">
-          Crear publicación
+          Guardar cambios
         </button>
       </form>
       <ToastContainer />
@@ -244,4 +252,22 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default EditProduct;
+
+//LOADER
+export const loaderUserProd = async ({ params }) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const { data } = await axios.get(
+      "https://booketapi.onrender.com/api/products/edit/" + params.id,
+      {
+        headers: { Authorization: "Bearer " + token },
+      }
+    );
+    return { data };
+  } catch (error) {
+    console.log(error.response.data);
+    return null;
+  }
+};

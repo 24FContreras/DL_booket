@@ -3,9 +3,10 @@ import { createContext, useContext, useState } from "react";
 export const SessionContext = createContext();
 
 const emptySession = {
-  userName: "",
+  active: false,
+  username: "",
   email: "",
-  favorites: [],
+  avatar: "default_avatar.png",
 };
 
 const SessionProvider = ({ children }) => {

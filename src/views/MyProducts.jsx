@@ -1,12 +1,11 @@
 import { useState } from "react";
+import axios from "axios";
 import { useLoaderData, Link } from "react-router-dom";
 import ProductListing from "../components/ProductListing";
 
 const MyProducts = () => {
   const { data } = useLoaderData();
-  const [myproducts, setMyProducts] = useState(
-    data.filter((item) => item.usuario === "readingSP")
-  );
+  const [myproducts, setMyProducts] = useState(data);
 
   return (
     <>
@@ -17,7 +16,12 @@ const MyProducts = () => {
           {myproducts.length ? (
             myproducts.map((item) => (
               <ProductListing item={item} key={item.id} type="product">
-                <button className="btn btn-primary">Editar</button>{" "}
+                <Link
+                  className="btn btn-primary"
+                  to={`/publicaciones/mispublicaciones/editar/${item.id}`}
+                >
+                  Editar
+                </Link>{" "}
                 <Link className="btn btn-primary" to={`/products/${item.id}`}>
                   Ver en tienda
                 </Link>
@@ -36,7 +40,16 @@ export default MyProducts;
 
 //LOADER
 export const loaderProds = async () => {
-  const res = await fetch("http://localhost:5173/src/data/libros.json");
-  const data = await res.json();
+  const token = localStorage.getItem("token");
+
+  const { data } = await axios.get(
+    "https://booketapi.onrender.com/api/products/user",
+    {
+      headers: { Authorization: "Bearer " + token },
+    }
+  );
+
+  console.log(data);
+
   return { data };
 };
