@@ -1,19 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../assets/css/Products.css";
-import { useLoaderData, Link, useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
 
 const ProductSearch = () => {
   let [searchParams, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useState("");
-
-  const { data } = useLoaderData();
-  const [libros, setLibros] = useState(data);
+  const [search, setSearch] = useState(searchParams.get("busqueda"));
+  const [libros, setLibros] = useState([]);
   const [filters, setFilters] = useState([]);
+  const navigate = useNavigate();
 
   const autoresSet = new Set(libros.map((item) => item.autor));
   const editorialesSet = new Set(libros.map((item) => item.editorial));
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await fetch(
+          "https://booketapi.onrender.com/api/products/search?search=titulo_" +
+            search
+        );
+        const data = await res.json();
+        setLibros(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    getData();
+  }, []);
 
   const countByParameter = (param, clase) => {
     let counter = 0;
@@ -45,14 +61,14 @@ const ProductSearch = () => {
     try {
       if (search) {
         setSearchParams({ busqueda: search });
-
         const res = await fetch(
           "https://booketapi.onrender.com/api/products/search?search=titulo_" +
             search
         );
         const data = await res.json();
-
         setLibros(data);
+      } else {
+        navigate("/products");
       }
     } catch (error) {
       console.log(error.message);
@@ -60,7 +76,7 @@ const ProductSearch = () => {
   };
 
   return (
-    <div className="products-wrapper bg-secondary-subtle">
+    <div className="products-search-wrapper bg-secondary-subtle">
       <section className="container-fluid products-bar bg-primary d-flex align-items-center">
         <form
           className="d-flex justify-content-center"
@@ -82,8 +98,8 @@ const ProductSearch = () => {
       </section>
       <aside className="products-filters p-3">
         <div className="bg-white rounded p-3 mb-4">
-          <h1 className="fs-4">"La Tregua"</h1>
-          <p className="m-0">{data.length} resultados</p>
+          <h1 className="fs-4">"{searchParams.get("busqueda")}"</h1>
+          <p className="m-0">{libros.length} resultado/s</p>
         </div>
 
         <div className="bg-white rounded p-3">

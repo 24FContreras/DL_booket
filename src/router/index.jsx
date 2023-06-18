@@ -35,7 +35,6 @@ export const router = createBrowserRouter([
       {
         path: "/search",
         element: <ProductSearch />,
-        loader: loaderBooks,
       },
       { path: "/products/:id", element: <Product />, loader: loaderBook },
       {
