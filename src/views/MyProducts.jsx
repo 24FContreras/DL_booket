@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useLoaderData, Link } from "react-router-dom";
 import ProductListing from "../components/ProductListing";
@@ -6,6 +6,10 @@ import ProductListing from "../components/ProductListing";
 const MyProducts = () => {
   const { data } = useLoaderData();
   const [myproducts, setMyProducts] = useState(data);
+
+  useEffect(() => {
+    document.title = `Mis publicaciones - Booket.market`;
+  }, []);
 
   return (
     <>
@@ -48,8 +52,6 @@ export const loaderProds = async () => {
       headers: { Authorization: "Bearer " + token },
     }
   );
-
-  console.log(data);
 
   return { data };
 };

@@ -1,6 +1,6 @@
 import "../assets/css/Profile.css";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSessionContext } from "../context/sessionContext";
 
 const Profile = () => {
@@ -17,7 +17,7 @@ const Profile = () => {
 
     try {
       const formData = new FormData();
-      formData.append("email", "correo1@gmail.com");
+      formData.append("email", session.email);
       formData.append("image", avatar);
 
       axios({
@@ -32,6 +32,10 @@ const Profile = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    document.title = "Mi perfil - Booket.market";
+  }, []);
 
   return (
     <>

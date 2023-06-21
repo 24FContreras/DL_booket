@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 //VIEWS
 //PUBLIC
-import Landing from "../views/Landing";
+import Landing, { loaderLatests } from "../views/Landing";
 import Register from "../views/Register";
 import Login from "../views/Login";
 import Products, { loaderBooks } from "../views/Products";
@@ -15,8 +15,8 @@ import Profile from "../views/Profile";
 import MyProducts, { loaderProds } from "../views/MyProducts";
 import CreateProduct from "../views/CreateProduct";
 import Favorites, { loaderFavoritos } from "../views/Favorites";
-import PanelPrueba from "../views/PanelPrueba";
 import EditProduct, { loaderUserProd } from "../views/EditProduct";
+import Cart from "../views/Cart";
 
 //LAYOUTS
 import RootLayout from "../layouts/RootLayout";
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <Landing /> },
+      { index: true, element: <Landing />, loader: loaderLatests },
       { path: "/register", element: <Register /> },
       { path: "/login", element: <Login /> },
       { path: "/products", element: <Products />, loader: loaderBooks },
@@ -41,13 +41,13 @@ export const router = createBrowserRouter([
         path: "/profile",
         element: <UserLayout />,
         loader: loaderUser,
-        children: [
-          { index: true, element: <Profile /> },
-          {
-            path: "/profile/testing",
-            element: <PanelPrueba />,
-          },
-        ],
+        children: [{ index: true, element: <Profile /> }],
+      },
+      {
+        path: "/cart",
+        element: <UserLayout />,
+        loader: loaderUser,
+        children: [{ index: true, element: <Cart /> }],
       },
       {
         path: "/publicaciones",

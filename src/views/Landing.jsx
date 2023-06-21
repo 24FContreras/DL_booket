@@ -1,7 +1,16 @@
+import { useEffect } from "react";
 import "../assets/css/Landing.css";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+
+import ProductCard from "../components/ProductCard";
 
 const Landing = () => {
+  const { data } = useLoaderData();
+
+  useEffect(() => {
+    document.title = `Bienvenido a Booket.market`;
+  }, []);
+
   return (
     <>
       <header className="container-fluid landing-header bg-black text-white">
@@ -23,19 +32,35 @@ const Landing = () => {
         </div>
       </header>
 
-      <main className="landing-main p-5">
-        <h2>¡Libros a tu alcance!</h2>
-        <section className="landing-info-grid">
-          <p>Revisa ofertas de múltiples fuentes</p>
-          <p>¿Necesitas un buen precio? Busca entre títulos nuevos y usados</p>
-          <p>Manten un contacto con tus vendedores favoritos</p>
-        </section>
-        <section className="p-5">
-          <h2>Sección en construcción</h2>
-        </section>
+      <main className="landing-main container-fluid">
+        <div className="row bg-secondary-subtle p-5 text-start">
+          <h3 className="mb-3">Últimos publicados</h3>
+          <section className="products-grid">
+            {data ? (
+              data.map((item) => {
+                return <ProductCard key={item.id} book={item} />;
+              })
+            ) : (
+              <p>Loading</p>
+            )}
+          </section>
+        </div>
       </main>
     </>
   );
 };
 
 export default Landing;
+
+//LOADER
+export const loaderLatests = async () => {
+  try {
+    const res = await fetch(
+      "https://booketapi.onrender.com/api/products?limits=8"
+    );
+    const data = await res.json();
+    return { data };
+  } catch (error) {
+    console.log(error);
+  }
+};

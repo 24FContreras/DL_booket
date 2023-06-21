@@ -33,9 +33,6 @@ const ProductCard = ({ book }) => {
         <Link className="btn btn-primary mb-1 w-100" to={`/products/${id}`}>
           Ver detalles
         </Link>
-        <button className="btn btn-primary mb-1 w-100">
-          Agregar al carrito
-        </button>
       </div>
     </div>
   );

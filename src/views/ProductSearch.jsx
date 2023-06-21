@@ -23,6 +23,8 @@ const ProductSearch = () => {
         );
         const data = await res.json();
         setLibros(data);
+
+        document.title = `Buscando '${search}' - Booket.market`;
       } catch (error) {
         console.log(error.message);
       }
@@ -67,6 +69,7 @@ const ProductSearch = () => {
         );
         const data = await res.json();
         setLibros(data);
+        document.title = `Buscando '${search}' - Booket.market`;
       } else {
         navigate("/products");
       }

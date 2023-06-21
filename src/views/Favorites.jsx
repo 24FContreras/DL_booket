@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLoaderData, Link } from "react-router-dom";
 import ProductListing from "../components/ProductListing";
@@ -38,6 +38,10 @@ const Favorites = () => {
       });
     }
   };
+
+  useEffect(() => {
+    document.title = `Mis favoritos - Booket.market`;
+  }, []);
 
   return (
     <>

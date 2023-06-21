@@ -8,13 +8,21 @@ import { useSessionContext } from "../context/sessionContext";
 function MyNavbar() {
   const { session, setSession } = useSessionContext();
 
+  const emptySession = {
+    active: false,
+    username: "",
+    email: "",
+    avatar: "default_avatar.png",
+    cart: { items: [] },
+  };
+
   const token = localStorage.getItem("token");
 
   const setActiveClass = ({ isActive }) =>
     isActive ? "nav-link active" : "nav-link";
 
   const handleLogout = () => {
-    setSession({ user: false, userName: "", email: "" });
+    setSession(emptySession);
   };
 
   return (
@@ -48,11 +56,9 @@ function MyNavbar() {
                 <NavLink className={setActiveClass} to="/profile">
                   Mi perfil
                 </NavLink>
-                <div className="profile-icon">
-                  <NavLink to="/profile">
-                    <i className="fa-solid fa-circle-user"></i>
-                  </NavLink>
-                </div>
+                <NavLink className={setActiveClass} to="/cart">
+                  Carrito
+                </NavLink>
               </>
             )}
           </Nav>

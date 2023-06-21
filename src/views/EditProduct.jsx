@@ -24,6 +24,7 @@ const EditProduct = () => {
 
   useEffect(() => {
     setNuevoLibro(data[0]);
+    document.title = `Editor de publicaciones - Booket.market`;
   }, []);
 
   const handleChange = (e) => {

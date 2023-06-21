@@ -1,6 +1,6 @@
 import "../assets/css/Register.css";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -44,6 +44,10 @@ const Register = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    document.title = "Regístrate - Booket.market";
+  }, []);
 
   return (
     <main className="register-main container-fluid register-main">

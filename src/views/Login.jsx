@@ -1,6 +1,6 @@
 import "../assets/css/Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSessionContext } from "../context/sessionContext";
 import axios from "axios";
 
@@ -32,12 +32,18 @@ const Login = () => {
       );
 
       localStorage.setItem("token", token);
-      setSession(true);
+      localStorage.setItem("booketCart", JSON.stringify({ items: [] }));
+
+      setSession({ ...session, active: true });
       navigate("/profile");
     } catch ({ response: { data: error } }) {
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    document.title = "Inicia sesión - Booket.market";
+  }, []);
 
   return (
     <div className="login-wrapper bg-secondary-subtle">

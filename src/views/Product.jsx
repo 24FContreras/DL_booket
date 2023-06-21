@@ -3,18 +3,63 @@ import axios from "axios";
 import "../assets/css/Product.css";
 import { useSessionContext } from "../context/sessionContext";
 import { utils } from "../utils";
+import { useEffect, useState } from "react";
 
 const Product = () => {
   const data = useLoaderData();
-  const token = localStorage.getItem("token");
   const { id } = useParams();
 
-  const datos = { productID: id };
+  const { session, setSession } = useSessionContext();
+  const [compra, setCompra] = useState({ ...data, cantidadCompra: 1, id: id });
 
+  const token = localStorage.getItem("token");
+
+  const getSession = async () => {
+    try {
+      const { data } = await axios.get(
+        "https://booketapi.onrender.com/api/user",
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
+
+      setSession({ ...session, active: true, ...data[0] });
+      return { data };
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getSession();
+    }
+  }, []);
+
+  console.log(session);
+
+  const agregarAlCarrito = () => {
+    console.log("Añadido");
+
+    console.log(session.cart.items);
+
+    if (session.cart.items.find((item) => item.id === compra.id)) {
+      console.log("Existo!");
+    } else {
+      session.cart.items.push(compra);
+      localStorage.setItem(
+        "booketCart",
+        JSON.stringify({ items: session.cart.items })
+      );
+    }
+  };
+
+  const datos = { productID: id };
   const agregarFavorito = async () => {
     try {
       await axios({
-        url: "http://localhost:3500/api/favorites",
+        url: "https://booketapi.onrender.com/api/favorites",
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -32,6 +77,10 @@ const Product = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+
+  const handleQty = (e) => {
+    setCompra({ ...compra, cantidadCompra: Number(e.target.value) });
   };
 
   return (
@@ -86,6 +135,7 @@ const Product = () => {
                           <select
                             className="form-select"
                             aria-label="Default select example"
+                            onChange={handleQty}
                           >
                             <option value="1">1 unidad</option>
                             <option value="2">2 Unidades</option>
@@ -95,7 +145,10 @@ const Product = () => {
                       </div>
                       {token ? (
                         <>
-                          <button className="btn btn-primary w-100">
+                          <button
+                            className="btn btn-primary w-100"
+                            onClick={agregarAlCarrito}
+                          >
                             Añadir al carrito
                           </button>
                           <button
@@ -154,7 +207,8 @@ export const loaderBook = async ({ params }) => {
     );
     const data = await res.json();
 
-    console.log(data);
+    document.title = `${data[0].titulo}, ${data[0].autor} - Booket.market`;
+
     return data[0];
   } catch (error) {
     console.log(error.message);

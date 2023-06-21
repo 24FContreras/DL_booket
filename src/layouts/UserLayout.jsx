@@ -4,21 +4,43 @@ import { Outlet, Navigate, NavLink, useLoaderData } from "react-router-dom";
 import { useSessionContext } from "../context/sessionContext";
 import { useEffect } from "react";
 
+import {
+  AiOutlineShoppingCart,
+  AiOutlineHeart,
+  AiOutlineShop,
+  AiOutlineUnorderedList,
+  AiOutlineUser,
+} from "react-icons/ai";
+
+import { MdOutlineAddBox } from "react-icons/md";
+
 const UserLayout = () => {
   const token = localStorage.getItem("token");
 
   const { data: datosUser } = useLoaderData();
-  const { session, setSession } = useSessionContext(datosUser);
+  const { session, setSession } = useSessionContext();
+
+  const emptySession = {
+    active: false,
+    username: "",
+    email: "",
+    avatar: "default_avatar.png",
+    cart: { items: [] },
+  };
 
   useEffect(() => {
-    if (datosUser) setSession(datosUser[0]);
+    if (datosUser) {
+      setSession({ ...session, ...datosUser[0] });
+    }
   }, []);
 
   const handleLogout = () => {
-    setSession(false);
+    setSession(emptySession);
 
     localStorage.removeItem("token");
   };
+
+  console.log(session);
 
   return (
     <>
@@ -38,31 +60,37 @@ const UserLayout = () => {
                       to="/profile"
                       className="list-group-item list-group-item-action text-black"
                     >
-                      Mi perfil
+                      <AiOutlineUser /> Mi perfil
                     </NavLink>
                     <NavLink
                       to="/publicaciones/mispublicaciones"
                       className="list-group-item list-group-item-action text-black"
                     >
-                      Mis publicaciones
+                      <AiOutlineUnorderedList /> Mis publicaciones
                     </NavLink>
                     <NavLink
                       to="/publicaciones/nuevapublicacion"
                       className="list-group-item list-group-item-action text-black"
                     >
-                      Crear publicación
+                      <MdOutlineAddBox /> Crear publicación
                     </NavLink>
                     <NavLink
                       to="/publicaciones/favoritos"
                       className="list-group-item list-group-item-action text-black"
                     >
-                      Favoritos
+                      <AiOutlineHeart /> Favoritos
                     </NavLink>
                     <NavLink
                       to="/products"
                       className="list-group-item list-group-item-action text-black"
                     >
-                      Ir a la tienda
+                      <AiOutlineShop /> Ir a la Tienda
+                    </NavLink>
+                    <NavLink
+                      to="/cart"
+                      className="list-group-item list-group-item-action text-black"
+                    >
+                      <AiOutlineShoppingCart /> Carrito
                     </NavLink>
                     <button
                       type="button"

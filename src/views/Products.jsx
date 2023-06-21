@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../assets/css/Products.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
@@ -19,6 +19,10 @@ const Products = () => {
     e.preventDefault();
     if (search.trim()) navigate("/search?busqueda=" + search);
   };
+
+  useEffect(() => {
+    document.title = `Tienda - Booket.market`;
+  }, []);
 
   return (
     <div className="products-wrapper bg-secondary-subtle">

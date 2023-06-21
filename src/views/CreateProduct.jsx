@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSessionContext } from "../context/sessionContext";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -73,6 +73,10 @@ const CreateProduct = () => {
       toast.error(error.message, { hideProgressBar: true });
     }
   };
+
+  useEffect(() => {
+    document.title = `Crear publicación - Booket.market`;
+  }, []);
 
   return (
     <>
