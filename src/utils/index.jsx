@@ -7,4 +7,12 @@ const formatearDivisa = (cantidad) => {
   return CLP.format(cantidad);
 };
 
-export const utils = { formatearDivisa };
+const setError = (errors, field) => {
+  const error = errors.find((item) => item.path === field);
+
+  if (error) {
+    return error.msg;
+  } else return "";
+};
+
+export const utils = { formatearDivisa, setError };

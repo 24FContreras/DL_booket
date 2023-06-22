@@ -54,7 +54,7 @@ const EditProduct = () => {
         bookData.append(key, nuevoLibro[key]);
       }
 
-      const endpoint = "https://booketapi.onrender.com/api/products/edit/" + id;
+      const endpoint = import.meta.env.VITE_API_URL + "/products/edit/" + id;
 
       const res = await axios({
         url: endpoint,
@@ -261,7 +261,7 @@ export const loaderUserProd = async ({ params }) => {
 
   try {
     const { data } = await axios.get(
-      "https://booketapi.onrender.com/api/products/edit/" + params.id,
+      import.meta.env.VITE_API_URL + "/products/edit/" + params.id,
       {
         headers: { Authorization: "Bearer " + token },
       }

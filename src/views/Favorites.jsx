@@ -81,7 +81,7 @@ export const loaderFavoritos = async () => {
   const token = localStorage.getItem("token");
 
   const { data } = await axios.get(
-    "https://booketapi.onrender.com/api/favorites",
+    import.meta.env.VITE_API_URL + "/favorites",
     {
       headers: { Authorization: "Bearer " + token },
     }

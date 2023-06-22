@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSessionContext } from "../context/sessionContext";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { utils } from "../utils";
 
 const CreateProduct = () => {
   const templateProducto = {
@@ -20,10 +21,12 @@ const CreateProduct = () => {
 
   const { session, setSession } = useSessionContext();
   const [nuevoLibro, setNuevoLibro] = useState(templateProducto);
+  const [errors, setErrors] = useState([]);
   const token = localStorage.getItem("token");
 
   const handleChange = (e) => {
     setNuevoLibro({ ...nuevoLibro, [e.target.name]: e.target.value });
+    setErrors([]);
   };
 
   const handleCover = (e) => {
@@ -36,12 +39,7 @@ const CreateProduct = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const bookData = new FormData(); //URLSearchParams();
-
-      if (Object.values(nuevoLibro).some((item) => item === "")) {
-        alert("Debes rellenar todos los campos");
-        return;
-      }
+      const bookData = new FormData();
 
       for (const key in nuevoLibro) {
         if (key !== "cover" && nuevoLibro[key].trim() !== "") {
@@ -55,8 +53,8 @@ const CreateProduct = () => {
 
       bookData.append("vendedor", session.email);
 
-      const res = await axios({
-        url: "https://booketapi.onrender.com/api/products",
+      const { data } = await axios({
+        url: import.meta.env.VITE_API_URL + "/products",
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -64,7 +62,12 @@ const CreateProduct = () => {
         data: bookData,
       });
 
-      toast.success(res.data.message, {
+      if (data.errors) {
+        setErrors(data.errors);
+        return;
+      }
+
+      toast.success(data.message, {
         position: toast.POSITION.TOP_RIGHT,
         hideProgressBar: true,
         autoClose: 1000,
@@ -93,12 +96,19 @@ const CreateProduct = () => {
               Título
               <input
                 type="text"
-                className="form-control"
+                className={
+                  utils.setError(errors, "titulo")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 name="titulo"
                 placeholder="Título del libro"
                 value={nuevoLibro.titulo}
                 onChange={handleChange}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "titulo")}
+              </p>
             </label>
           </div>
           <div className="col">
@@ -106,12 +116,19 @@ const CreateProduct = () => {
               Autor
               <input
                 type="text"
-                className="form-control"
+                className={
+                  utils.setError(errors, "autor")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 name="autor"
                 placeholder="Autor del libro"
                 value={nuevoLibro.autor}
                 onChange={handleChange}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "autor")}
+              </p>
             </label>
           </div>
           <div className="col">
@@ -119,12 +136,19 @@ const CreateProduct = () => {
               N° de páginas
               <input
                 type="number"
-                className="form-control"
+                className={
+                  utils.setError(errors, "paginas")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 name="paginas"
                 placeholder="ex: 280"
                 value={nuevoLibro.paginas}
                 onChange={handleChange}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "paginas")}
+              </p>
             </label>
           </div>
           <div className="col">
@@ -132,19 +156,30 @@ const CreateProduct = () => {
               Editorial
               <input
                 type="text"
-                className="form-control"
+                className={
+                  utils.setError(errors, "editorial")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 name="editorial"
                 placeholder="Nombre de la editorial"
                 value={nuevoLibro.editorial}
                 onChange={handleChange}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "editorial")}
+              </p>
             </label>
           </div>
           <div className="col">
             <label className="w-100">
               Estado
               <select
-                className="form-select"
+                className={
+                  utils.setError(errors, "estado")
+                    ? " form-select is-invalid"
+                    : "form-select"
+                }
                 aria-label="Default select example"
                 name="estado"
                 value={nuevoLibro.estado}
@@ -153,13 +188,20 @@ const CreateProduct = () => {
                 <option value="nuevo">nuevo</option>
                 <option value="usado">usado</option>
               </select>
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "estado")}
+              </p>
             </label>
           </div>
           <div className="col">
             <label className="w-100">
               Encuadernación
               <select
-                className="form-select"
+                className={
+                  utils.setError(errors, "encuadernacion")
+                    ? " form-select is-invalid"
+                    : "form-select"
+                }
                 aria-label="Default select example"
                 name="encuadernacion"
                 value={nuevoLibro.encuadernacion}
@@ -171,17 +213,27 @@ const CreateProduct = () => {
                 <option value="espiral">espiral</option>
                 <option value="otro">otro</option>
               </select>
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "encuadernacion")}
+              </p>
             </label>
           </div>
           <div className="col">
             <label className="w-100">
               Portada
               <input
-                className="form-control"
+                className={
+                  utils.setError(errors, "cover")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 type="file"
                 name="cover"
                 onChange={handleCover}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "cover")}
+              </p>
             </label>
           </div>
           <div className="col">
@@ -189,12 +241,19 @@ const CreateProduct = () => {
               Idioma
               <input
                 type="text"
-                className="form-control"
+                className={
+                  utils.setError(errors, "idioma")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 name="idioma"
                 placeholder="Idioma del libro"
                 value={nuevoLibro.idioma}
                 onChange={handleChange}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "idioma")}
+              </p>
             </label>
           </div>
           <div className="col">
@@ -202,12 +261,19 @@ const CreateProduct = () => {
               Stock
               <input
                 type="number"
-                className="form-control"
+                className={
+                  utils.setError(errors, "stock")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 name="stock"
                 placeholder="stock"
                 value={nuevoLibro.stock}
                 onChange={handleChange}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "stock")}
+              </p>
             </label>
           </div>
           <div className="col">
@@ -215,12 +281,19 @@ const CreateProduct = () => {
               Precio
               <input
                 type="number"
-                className="form-control"
+                className={
+                  utils.setError(errors, "precio")
+                    ? " form-control is-invalid"
+                    : "form-control"
+                }
                 name="precio"
                 placeholder="Precio"
                 value={nuevoLibro.precio}
                 onChange={handleChange}
               />
+              <p className="text-danger mb-2">
+                {utils.setError(errors, "precio")}
+              </p>
             </label>
           </div>
         </div>
@@ -229,13 +302,20 @@ const CreateProduct = () => {
           <label className="w-100">
             Descripción
             <textarea
-              className="form-control"
+              className={
+                utils.setError(errors, "descripcion")
+                  ? " form-control is-invalid"
+                  : "form-control"
+              }
               rows="3"
               name="descripcion"
               placeholder="descripcion"
               value={nuevoLibro.descripcion}
               onChange={handleChange}
             ></textarea>
+            <p className="text-danger mb-2">
+              {utils.setError(errors, "descripcion")}
+            </p>
           </label>
         </div>
 
