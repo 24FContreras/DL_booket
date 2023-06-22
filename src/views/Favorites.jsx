@@ -18,7 +18,7 @@ const Favorites = () => {
 
     if (favorites[itemIndex].favorite) {
       const res = await axios({
-        url: "https://booketapi.onrender.com/api/favorites",
+        url: import.meta.env.VITE_API_URL + "/favorites",
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -29,7 +29,7 @@ const Favorites = () => {
 
     if (!favorites[itemIndex].favorite) {
       const res = await axios({
-        url: "https://booketapi.onrender.com/api/favorites",
+        url: import.meta.env.VITE_API_URL + "/favorites",
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + token,
