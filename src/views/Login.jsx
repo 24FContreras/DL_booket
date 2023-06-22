@@ -12,38 +12,50 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState([]);
 
   const handleChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
+    setErrors([]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      if (!login.email.trim() || !login.password.trim()) {
-        alert("Debe rellenar todos los campos");
-        return;
-      }
-
-      const { data: token } = await axios.post(
-        "https://booketapi.onrender.com/api/login",
+      const { data } = await axios.post(
+        import.meta.env.VITE_API_URL + "/login",
         login
       );
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("booketCart", JSON.stringify({ items: [] }));
-
-      setSession({ ...session, active: true });
-      navigate("/profile");
-    } catch ({ response: { data: error } }) {
-      alert(error.message);
+      if (data.errors) {
+        setErrors([...data.errors]);
+      } else {
+        localStorage.setItem("token", data);
+        localStorage.setItem("booketCart", JSON.stringify({ items: [] }));
+        setSession({ ...session, active: true });
+        navigate("/profile");
+      }
+    } catch ({ response: { data: err } }) {
+      alert(err.message);
     }
   };
 
   useEffect(() => {
     document.title = "Inicia sesión - Booket.market";
   }, []);
+
+  const setError = (field) => {
+    if (!errors.length) {
+      return "";
+    } else {
+      const error = errors.find((item) => item.path === field);
+
+      if (error) {
+        return error.msg;
+      } else return "";
+    }
+  };
 
   return (
     <div className="login-wrapper bg-secondary-subtle">
@@ -63,12 +75,15 @@ const Login = () => {
             </label>
             <input
               type="email"
-              className="form-control"
+              className={
+                setError("email") ? " form-control is-invalid" : "form-control"
+              }
               name="email"
               placeholder="tucorreo@mail.com"
               value={login.loginEmail}
               onChange={handleChange}
             />
+            <p className="text-danger mb-2">{setError("email")}</p>
           </div>
 
           <div className="mb-3">
@@ -77,12 +92,17 @@ const Login = () => {
             </label>
             <input
               type="password"
-              className="form-control"
+              className={
+                setError("password")
+                  ? " form-control is-invalid"
+                  : "form-control"
+              }
               name="password"
               placeholder="**********"
               value={login.loginPassword}
               onChange={handleChange}
             />
+            <p className="text-danger mb-2">{setError("password")}</p>
           </div>
 
           <button className="btn btn-primary rounded-0" type="submit">

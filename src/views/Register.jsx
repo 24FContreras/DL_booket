@@ -10,6 +10,7 @@ const Register = () => {
     registerPass: "",
     registerRepass: "",
   });
+  const [errors, setErrors] = useState([]);
 
   const navigate = useNavigate();
 
@@ -19,8 +20,6 @@ const Register = () => {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
-
-    console.log("submit");
 
     const {
       registerEmail: email,
@@ -33,21 +32,54 @@ const Register = () => {
     console.log(nuevoUsuario);
 
     try {
-      await axios.post(
-        "https://booketapi.onrender.com/api/register",
+      if (register.registerPass !== register.registerRepass) {
+        console.log("Hay errores");
+
+        setErrors([
+          {
+            path: "repass",
+            msg: "Las contraseñas no coinciden",
+          },
+        ]);
+        console.log(errors);
+        return;
+      }
+
+      const { data } = await axios.post(
+        import.meta.env.VITE_API_URL + "/register",
         nuevoUsuario
       );
+
+      if (data.errors) {
+        console.log("Hay errores");
+
+        setErrors([...data.errors]);
+        console.log(errors);
+        return;
+      }
+
       alert("Usuario registrado con éxito");
       navigate("/login");
     } catch (error) {
-      alert("Algo salió mal ...");
-      console.log(error);
+      alert(error.response.data);
     }
   };
 
   useEffect(() => {
     document.title = "Regístrate - Booket.market";
   }, []);
+
+  const setError = (field) => {
+    if (!errors.length) {
+      return "";
+    } else {
+      const error = errors.find((item) => item.path === field);
+
+      if (error) {
+        return error.msg;
+      } else return "";
+    }
+  };
 
   return (
     <main className="register-main container-fluid register-main">
@@ -59,57 +91,77 @@ const Register = () => {
             <div className="col">
               <label htmlFor="registerEmail" className="form-label">
                 Correo electrónico
+                <input
+                  type="email"
+                  className={
+                    setError("email")
+                      ? " form-control is-invalid"
+                      : "form-control"
+                  }
+                  name="registerEmail"
+                  placeholder="tucorreo@mail.com"
+                  value={register.registerEmail}
+                  onChange={handleChange}
+                />
+                <p className="text-danger mb-2">{setError("email")}</p>
               </label>
-              <input
-                type="email"
-                className="form-control"
-                name="registerEmail"
-                placeholder="tucorreo@mail.com"
-                value={register.registerEmail}
-                onChange={handleChange}
-              />
             </div>
 
             <div className="col">
               <label htmlFor="registerUsername" className="form-label">
                 Username
+                <input
+                  type="text"
+                  className={
+                    setError("username")
+                      ? " form-control is-invalid"
+                      : "form-control"
+                  }
+                  name="registerUsername"
+                  placeholder="nombre de usuario"
+                  value={register.registerUsername}
+                  onChange={handleChange}
+                />
+                <p className="text-danger mb-2">{setError("username")}</p>
               </label>
-              <input
-                type="text"
-                className="form-control"
-                name="registerUsername"
-                placeholder="nombre de usuario"
-                value={register.registerUsername}
-                onChange={handleChange}
-              />
             </div>
 
             <div className="col">
               <label htmlFor="registerPass" className="form-label">
                 Contraseña
+                <input
+                  type="password"
+                  className={
+                    setError("password")
+                      ? " form-control is-invalid"
+                      : "form-control"
+                  }
+                  name="registerPass"
+                  placeholder="********"
+                  value={register.registerPass}
+                  onChange={handleChange}
+                />
+                <p className="text-danger mb-2">{setError("password")}</p>
               </label>
-              <input
-                type="password"
-                className="form-control"
-                name="registerPass"
-                placeholder="********"
-                value={register.registerPass}
-                onChange={handleChange}
-              />
             </div>
 
             <div className="col">
               <label htmlFor="registerRepass" className="form-label">
                 Ingresa nuevamente tu contraseña
+                <input
+                  type="password"
+                  className={
+                    setError("repass")
+                      ? " form-control is-invalid"
+                      : "form-control"
+                  }
+                  name="registerRepass"
+                  placeholder="********"
+                  value={register.registerRepass}
+                  onChange={handleChange}
+                />
+                <p className="text-danger mb-2">{setError("repass")}</p>
               </label>
-              <input
-                type="password"
-                className="form-control"
-                name="registerRepass"
-                placeholder="********"
-                value={register.registerRepass}
-                onChange={handleChange}
-              />
             </div>
 
             <div className="col">

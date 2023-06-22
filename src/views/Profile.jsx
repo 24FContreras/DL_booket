@@ -21,7 +21,7 @@ const Profile = () => {
       formData.append("image", avatar);
 
       axios({
-        url: "https://booketapi.onrender.com/api/profile",
+        url: import.meta.env.VITE_API_URL + "/profile",
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,

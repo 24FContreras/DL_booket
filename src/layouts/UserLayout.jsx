@@ -119,12 +119,9 @@ export const loaderUser = async () => {
   const token = localStorage.getItem("token");
 
   try {
-    const { data } = await axios.get(
-      "https://booketapi.onrender.com/api/user",
-      {
-        headers: { Authorization: "Bearer " + token },
-      }
-    );
+    const { data } = await axios.get(import.meta.env.VITE_API_URL + "/user", {
+      headers: { Authorization: "Bearer " + token },
+    });
 
     return { data };
   } catch (error) {
