@@ -51,7 +51,9 @@ const EditProduct = () => {
       }
 
       for (const key in nuevoLibro) {
-        bookData.append(key, nuevoLibro[key]);
+        if (key !== "username") {
+          bookData.append(key, nuevoLibro[key]);
+        }
       }
 
       const endpoint = import.meta.env.VITE_API_URL + "/products/edit/" + id;

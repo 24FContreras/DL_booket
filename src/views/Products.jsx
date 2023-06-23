@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "../assets/css/Products.css";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState("");
-  const { data } = useLoaderData();
+  let { data } = useLoaderData();
   const [libros, setLibros] = useState(data);
+  const [page, setPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -19,6 +21,24 @@ const Products = () => {
     e.preventDefault();
     if (search.trim()) navigate("/search?busqueda=" + search);
   };
+
+  const goBackward = () => {
+    const currentPage = searchParams.get("page");
+    if (currentPage > 2) {
+      navigate("/products?page=" + (Number(currentPage) - 1));
+    } else navigate("/products");
+  };
+
+  const goForward = () => {
+    const currentPage = searchParams.get("page");
+    if (currentPage) {
+      navigate("/products?page=" + (Number(currentPage) + 1));
+    } else navigate("/products?page=2");
+  };
+
+  useMemo(() => {
+    setLibros(data);
+  }, [searchParams.get("page")]);
 
   useEffect(() => {
     document.title = `Tienda - Booket.market`;
@@ -49,13 +69,28 @@ const Products = () => {
       <main className="products-main">
         <section className="products-grid">
           {libros ? (
-            libros.map((item) => {
+            libros.productos.map((item) => {
               return <ProductCard key={item.id} book={item} />;
             })
           ) : (
             <p>Loading</p>
           )}
         </section>
+
+        <nav aria-label="Navegación">
+          <ul class="pagination mt-3">
+            <li class="page-item">
+              <button className="page-link link-secondary" onClick={goBackward}>
+                Anterior
+              </button>
+            </li>
+            <li class="page-item">
+              <button className="page-link link-secondary" onClick={goForward}>
+                Siguiente
+              </button>
+            </li>
+          </ul>
+        </nav>
       </main>
     </div>
   );
@@ -64,9 +99,19 @@ const Products = () => {
 export default Products;
 
 //LOADER
-export const loaderBooks = async () => {
+export const loaderBooks = async ({ request }) => {
+  let page = new URL(request.url).searchParams.get("page");
+
+  if (!page) {
+    page = 1;
+  }
+
+  console.log(Number(page));
+
   try {
-    const res = await fetch(import.meta.env.VITE_API_URL + "/products");
+    const res = await fetch(
+      import.meta.env.VITE_API_URL + "/products?limits=12&page=" + page
+    );
     const data = await res.json();
     return { data };
   } catch (error) {

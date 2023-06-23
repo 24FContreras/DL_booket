@@ -6,7 +6,7 @@ import Landing from "../views/Landing";
 import Register from "../views/Register";
 import Login from "../views/Login";
 import Products, { loaderBooks } from "../views/Products";
-import ProductSearch from "../views/ProductSearch";
+import ProductSearch, { loaderBookSearch } from "../views/ProductSearch";
 import Product, { loaderBook } from "../views/Product";
 import NotFound from "../views/NotFound";
 
@@ -35,6 +35,7 @@ export const router = createBrowserRouter([
       {
         path: "/search",
         element: <ProductSearch />,
+        loader: loaderBookSearch,
       },
       { path: "/products/:id", element: <Product />, loader: loaderBook },
       {
