@@ -13,8 +13,37 @@ const Cart = () => {
     } else return 0;
   };
 
+  const handleRemove = (id) => {
+    const newSession = { ...session };
+    const index = session.cart.items.findIndex((item) => item.id === id);
+
+    if (session.cart.items[index].cantidadCompra > 1) {
+      newSession.cart.items[index].cantidadCompra--;
+    } else {
+      newSession.cart.items.splice(index, 1);
+    }
+    setSession(newSession);
+    localStorage.setItem("booketCart", JSON.stringify(session.cart));
+  };
+
+  const handleAdd = (id) => {
+    const newSession = { ...session };
+    const index = session.cart.items.findIndex((item) => item.id === id);
+
+    if (
+      session.cart.items[index].stock >=
+      session.cart.items[index].cantidadCompra + 1
+    ) {
+      newSession.cart.items[index].cantidadCompra++;
+      setSession(newSession);
+      localStorage.setItem("booketCart", JSON.stringify(session.cart));
+    } else {
+      alert("Supera el stock disponible");
+    }
+  };
+
   useEffect(() => {
-    console.log(session);
+    console.log(session.cart.items);
   }, []);
 
   return (
@@ -22,6 +51,10 @@ const Cart = () => {
       <h1>Mi carrito</h1>
 
       <ul className="list-group list-group-flush">
+        {session.cart.items.length === 0 && (
+          <p>No tienes artículos en tu carrito</p>
+        )}
+
         {session.cart.items.map((item) => (
           <li
             className="list-group-item d-flex flew-row justify-content-between"
@@ -47,7 +80,11 @@ const Cart = () => {
                 role="group"
                 aria-label="Vertical button group"
               >
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => handleAdd(item.id)}
+                >
                   +
                 </button>
                 <button
@@ -55,9 +92,13 @@ const Cart = () => {
                   className="btn btn-white border"
                   disabled={true}
                 >
-                  1
+                  {item.cantidadCompra}
                 </button>
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => handleRemove(item.id)}
+                >
                   -
                 </button>
               </div>

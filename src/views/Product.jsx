@@ -16,12 +16,9 @@ const Product = () => {
 
   const getSession = async () => {
     try {
-      const { data } = await axios.get(
-        "https://booketapi.onrender.com/api/user",
-        {
-          headers: { Authorization: "Bearer " + token },
-        }
-      );
+      const { data } = await axios.get(import.meta.env.VITE_API_URL + "/user", {
+        headers: { Authorization: "Bearer " + token },
+      });
 
       setSession({ ...session, active: true, ...data[0] });
       return { data };
@@ -59,7 +56,7 @@ const Product = () => {
   const agregarFavorito = async () => {
     try {
       await axios({
-        url: "https://booketapi.onrender.com/api/favorites",
+        url: import.meta.env.VITE_API_URL + "/favorites",
         method: "POST",
         headers: {
           Authorization: "Bearer " + token,
@@ -101,7 +98,7 @@ const Product = () => {
                   <span className="badge bg-secondary">
                     {data.estado.toUpperCase()}
                   </span>{" "}
-                  | Vendido por <a href="#">{data.usuario}</a>
+                  | Vendido por {data.username}
                 </p>
                 <h1 className="m-0">{data.titulo}</h1>
                 <p className="lead mb-4">{data.autor}</p>
@@ -203,7 +200,7 @@ export default Product;
 export const loaderBook = async ({ params }) => {
   try {
     const res = await fetch(
-      "https://booketapi.onrender.com/api/products/" + params.id
+      import.meta.env.VITE_API_URL + "/products/" + params.id
     );
     const data = await res.json();
 

@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 //VIEWS
 //PUBLIC
-import Landing, { loaderLatests } from "../views/Landing";
+import Landing from "../views/Landing";
 import Register from "../views/Register";
 import Login from "../views/Login";
 import Products, { loaderBooks } from "../views/Products";
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <Landing />, loader: loaderLatests },
+      { index: true, element: <Landing /> },
       { path: "/register", element: <Register /> },
       { path: "/login", element: <Login /> },
       { path: "/products", element: <Products />, loader: loaderBooks },

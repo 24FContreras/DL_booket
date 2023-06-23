@@ -22,7 +22,7 @@ const ProductListing = ({ type, item, children, likeManager }) => {
 
   const deleteItem = async () => {
     try {
-      const endpoint = "https://booketapi.onrender.com/api/products/" + item.id;
+      const endpoint = import.meta.env.VITE_API_URL + "/products/" + item.id;
 
       console.log(endpoint);
 

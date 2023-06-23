@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
 import "../assets/css/Landing.css";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import ProductCard from "../components/ProductCard";
 
 const Landing = () => {
-  const { data } = useLoaderData();
   const [latest, setLatest] = useState([]);
+  const [errors, setErrors] = useState(false);
+
+  const getLatest = async () => {
+    try {
+      const res = await fetch(
+        import.meta.env.VITE_PRODUCTION_URL + "/products?limits=8"
+      );
+      const data = await res.json();
+
+      console.log(data);
+      setLatest(data);
+      return { data };
+    } catch (error) {
+      console.log(error);
+      setErrors("Ocurrió un error al realizar la petición");
+    }
+  };
 
   useEffect(() => {
     document.title = `Bienvenido a Booket.market`;
-    if (!data.error) {
-      setLatest(data);
-    } else return;
+
+    getLatest();
   }, []);
 
   return (
@@ -40,14 +55,14 @@ const Landing = () => {
         <div className="row bg-secondary-subtle p-5 text-start">
           <h3 className="mb-3">Últimos publicados</h3>
           <section className="products-grid">
-            {latest ? (
+            {latest.length ? (
               latest.map((item) => {
                 return <ProductCard key={item.id} book={item} />;
               })
             ) : (
               <p>Loading</p>
             )}
-            {data.error ? data.msg : null}
+            {errors && errors}
           </section>
         </div>
       </main>
@@ -56,18 +71,3 @@ const Landing = () => {
 };
 
 export default Landing;
-
-//LOADER
-export const loaderLatests = async () => {
-  try {
-    const res = await fetch(
-      import.meta.env.VITE_API_URL + "/products?limits=8"
-    );
-    const data = await res.json();
-    return { data };
-  } catch (error) {
-    return {
-      data: { error: true, msg: "Hubo un error al solicitar los productos" },
-    };
-  }
-};

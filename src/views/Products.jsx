@@ -66,7 +66,7 @@ export default Products;
 //LOADER
 export const loaderBooks = async () => {
   try {
-    const res = await fetch("https://booketapi.onrender.com/api/products");
+    const res = await fetch(import.meta.env.VITE_API_URL + "/products");
     const data = await res.json();
     return { data };
   } catch (error) {
