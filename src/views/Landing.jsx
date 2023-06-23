@@ -15,11 +15,9 @@ const Landing = () => {
       );
       const data = await res.json();
 
-      console.log(data);
-      setLatest(data);
+      setLatest(data.productos);
       return { data };
     } catch (error) {
-      console.log(error);
       setErrors("Ocurrió un error al realizar la petición");
     }
   };
