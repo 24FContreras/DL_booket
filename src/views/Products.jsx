@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import "../assets/css/Products.css";
 import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 import ProductCard from "../components/ProductCard";
 
@@ -9,7 +10,6 @@ const Products = () => {
   const [search, setSearch] = useState("");
   let { data } = useLoaderData();
   const [libros, setLibros] = useState(data);
-  const [page, setPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -22,18 +22,12 @@ const Products = () => {
     if (search.trim()) navigate("/search?busqueda=" + search);
   };
 
-  const goBackward = () => {
-    const currentPage = searchParams.get("page");
-    if (currentPage > 2) {
-      navigate("/products?page=" + (Number(currentPage) - 1));
-    } else navigate("/products");
-  };
+  const setPagination = (e) => {
+    console.log(e.selected + 1);
 
-  const goForward = () => {
-    const currentPage = searchParams.get("page");
-    if (currentPage) {
-      navigate("/products?page=" + (Number(currentPage) + 1));
-    } else navigate("/products?page=2");
+    if (e.selected !== 0) {
+      navigate("/products?page=" + (Number(e.selected) + 1));
+    } else navigate("/products");
   };
 
   useMemo(() => {
@@ -77,20 +71,16 @@ const Products = () => {
           )}
         </section>
 
-        <nav aria-label="Navegación">
-          <ul class="pagination mt-3">
-            <li class="page-item">
-              <button className="page-link link-secondary" onClick={goBackward}>
-                Anterior
-              </button>
-            </li>
-            <li class="page-item">
-              <button className="page-link link-secondary" onClick={goForward}>
-                Siguiente
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <ReactPaginate
+          containerClassName={"pagination mt-5"}
+          pageClassName={"page-item page-link link-secondary"}
+          activeClassName={"active text-black"}
+          onPageChange={setPagination}
+          pageCount={libros.paginas}
+          breakLabel={<a className="page-link link-secondary">...</a>}
+          previousLabel={<a className="page-link link-secondary">Anterior</a>}
+          nextLabel={<a className="page-link link-secondary">Siguiente</a>}
+        />
       </main>
     </div>
   );
@@ -105,8 +95,6 @@ export const loaderBooks = async ({ request }) => {
   if (!page) {
     page = 1;
   }
-
-  console.log(Number(page));
 
   try {
     const res = await fetch(

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import "../assets/css/Products.css";
 import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 import ProductCard from "../components/ProductCard";
 
@@ -23,26 +24,12 @@ const ProductSearch = () => {
     } else navigate("/products");
   };
 
-  const goBackward = () => {
-    const currentPage = searchParams.get("page");
+  const setPagination = (e) => {
     const busqueda = searchParams.get("busqueda");
 
-    if (currentPage > 2) {
-      navigate(
-        "/search?busqueda=" + busqueda + "&page=" + (Number(currentPage) - 1)
-      );
+    if (e.selected !== 0) {
+      navigate("/search?busqueda=" + busqueda + "&page=" + (e.selected + 1));
     } else navigate("/search?busqueda=" + busqueda);
-  };
-
-  const goForward = () => {
-    const currentPage = searchParams.get("page");
-    const busqueda = searchParams.get("busqueda");
-
-    if (currentPage) {
-      navigate(
-        "/search?busqueda=" + busqueda + "&page=" + (Number(currentPage) + 1)
-      );
-    } else navigate("/search?busqueda=" + busqueda + "&page=2");
   };
 
   useMemo(() => {
@@ -95,20 +82,16 @@ const ProductSearch = () => {
           )}
         </section>
 
-        <nav aria-label="Navegación">
-          <ul class="pagination mt-3">
-            <li class="page-item">
-              <button className="page-link link-secondary" onClick={goBackward}>
-                Anterior
-              </button>
-            </li>
-            <li class="page-item">
-              <button className="page-link link-secondary" onClick={goForward}>
-                Siguiente
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <ReactPaginate
+          containerClassName={"pagination mt-5"}
+          pageClassName={"page-item page-link link-secondary"}
+          activeClassName={"active text-black"}
+          onPageChange={setPagination}
+          pageCount={libros.paginas}
+          breakLabel={<a className="page-link link-secondary">...</a>}
+          previousLabel={<a className="page-link link-secondary">Anterior</a>}
+          nextLabel={<a className="page-link link-secondary">Siguiente</a>}
+        />
       </main>
     </div>
   );
