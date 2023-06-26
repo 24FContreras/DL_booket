@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
 import { useLoaderData, Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "../assets/css/Product.css";
 import { useSessionContext } from "../context/sessionContext";
 import { utils } from "../utils";
-import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const Product = () => {
   const data = useLoaderData();
@@ -34,20 +35,49 @@ const Product = () => {
     }
   }, []);
 
-  console.log(session);
-
   const agregarAlCarrito = () => {
-    console.log("Añadido");
+    const currentCartItem = session.cart.items.find(
+      (item) => item.id === compra.id
+    );
 
-    console.log(session.cart.items);
+    if (currentCartItem) {
+      if (
+        data.stock >=
+        currentCartItem.cantidadCompra + compra.cantidadCompra
+      ) {
+        currentCartItem.cantidadCompra += compra.cantidadCompra;
 
-    if (session.cart.items.find((item) => item.id === compra.id)) {
-      console.log("Existo!");
+        const newCart = session.cart.items.filter((item) => item.id !== id);
+        newCart.push(compra);
+        localStorage.setItem("booketCart", JSON.stringify({ items: newCart }));
+
+        toast.success(
+          `Se ha agregado ${compra.cantidadCompra} unidad/es al carrito`,
+          {
+            position: toast.POSITION.TOP_RIGHT,
+            hideProgressBar: true,
+            autoClose: 1000,
+          }
+        );
+      } else {
+        toast.error("No existe stock disponible para realizar esta acción", {
+          hideProgressBar: true,
+        });
+      }
     } else {
       session.cart.items.push(compra);
       localStorage.setItem(
         "booketCart",
         JSON.stringify({ items: session.cart.items })
+      );
+
+      toast.success(
+        `Se ha agregado ${compra.cantidadCompra} unidad/es al carrito`,
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          hideProgressBar: true,
+          autoClose: 1000,
+        }
       );
     }
   };
@@ -78,6 +108,17 @@ const Product = () => {
 
   const handleQty = (e) => {
     setCompra({ ...compra, cantidadCompra: Number(e.target.value) });
+  };
+
+  const getCurrentCart = () => {
+    const book = session.cart.items.find((item) => item.id === id);
+
+    if (book)
+      return (
+        <p className="m-0">
+          Tienes {book.cantidadCompra} unidad/es en tu carrito
+        </p>
+      );
   };
 
   return (
@@ -135,9 +176,15 @@ const Product = () => {
                             onChange={handleQty}
                           >
                             <option value="1">1 unidad</option>
-                            <option value="2">2 Unidades</option>
-                            <option value="3">3 Unidades</option>
+                            {data.stock >= 2 && (
+                              <option value="2">2 Unidades</option>
+                            )}
+                            {data.stock >= 3 && (
+                              <option value="3">3 Unidades</option>
+                            )}
                           </select>
+
+                          {getCurrentCart()}
                         </div>
                       </div>
                       {token ? (
@@ -166,6 +213,9 @@ const Product = () => {
               </div>
             </div>
 
+            <ToastContainer />
+
+            {/*
             <div className="row">
               <h3>Preguntas</h3>
               <form action="">
@@ -183,6 +233,7 @@ const Product = () => {
                 </button>
               </form>
             </div>
+          */}
           </main>
         </div>
       ) : (

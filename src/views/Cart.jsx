@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSessionContext } from "../context/sessionContext";
 import { utils } from "../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Cart = () => {
   const { session, setSession } = useSessionContext();
@@ -21,6 +22,11 @@ const Cart = () => {
       newSession.cart.items[index].cantidadCompra--;
     } else {
       newSession.cart.items.splice(index, 1);
+      toast.success(`el articulo ha eliminado exitosamente del carro`, {
+        position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: true,
+        autoClose: 1000,
+      });
     }
     setSession(newSession);
     localStorage.setItem("booketCart", JSON.stringify(session.cart));
@@ -38,7 +44,11 @@ const Cart = () => {
       setSession(newSession);
       localStorage.setItem("booketCart", JSON.stringify(session.cart));
     } else {
-      alert("Supera el stock disponible");
+      toast.error(`La acción supera el stock disponible`, {
+        position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: true,
+        autoClose: 1000,
+      });
     }
   };
 
@@ -116,6 +126,7 @@ const Cart = () => {
         </p>
         <button className="btn btn-primary rounded-pill">Comprar</button>
       </div>
+      <ToastContainer />
     </>
   );
 };
