@@ -71,11 +71,7 @@ const Cart = () => {
             key={item.id}
           >
             <div className="d-flex flex-row gap-2">
-              <img
-                src={`https://booketapi.onrender.com/images/books/${item.portada}`}
-                alt=""
-                height="80px"
-              />
+              <img src={item.imageUrl} alt="" height="80px" />
               <div>
                 <p className="m-0">{item.titulo}</p>
                 <p className="m-0">

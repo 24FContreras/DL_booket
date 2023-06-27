@@ -62,11 +62,7 @@ const ProductListing = ({ type, item, children, likeManager }) => {
   return (
     <li className="list-group-item" key={item.id}>
       <div className="listed-product p-3 d-flex flex-row gap-2">
-        <img
-          src={`https://booketapi.onrender.com/images/books/${item.portada}`}
-          alt={`${item.titulo}`}
-          height="120px"
-        />
+        <img src={item.imageUrl} alt={`${item.titulo}`} height="120px" />
         <div className="w-100 d-flex flex-row justify-content-between">
           <div>
             <p className="m-0 fw-semibold text-uppercase">{item.titulo}</p>

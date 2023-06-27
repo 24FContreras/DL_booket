@@ -128,11 +128,7 @@ const Product = () => {
           <main className="product-main container p-4 shadow bg-white">
             <div className="row g-5">
               <div className="col col-3 rounded">
-                <img
-                  className="w-100"
-                  src={`https://booketapi.onrender.com/images/books/${data.portada}`}
-                  alt=""
-                />
+                <img className="w-100" src={data.imageUrl} alt="" />
               </div>
               <div className="col col-6">
                 <p className="mb-1">
@@ -237,7 +233,11 @@ const Product = () => {
           </main>
         </div>
       ) : (
-        <p>Este artículo no existe</p>
+        <div className="product-wrapper bg-secondary-subtle py-4">
+          <main className="product-main container p-4 shadow bg-white">
+            <p>Este artículo no existe</p>
+          </main>
+        </div>
       )}
     </>
   );

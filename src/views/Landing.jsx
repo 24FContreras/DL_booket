@@ -58,7 +58,7 @@ const Landing = () => {
                 return <ProductCard key={item.id} book={item} />;
               })
             ) : (
-              <p>Loading</p>
+              <p>Cargando...</p>
             )}
             {errors && errors}
           </section>
