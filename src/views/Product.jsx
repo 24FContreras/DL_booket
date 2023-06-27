@@ -249,15 +249,38 @@ export default Product;
 
 //LOADER
 export const loaderBook = async ({ params }) => {
+  /*
+    const token = localStorage.getItem("token");
+
+  const getSession = async () => {
+    try {
+      const { data } = await axios.get(import.meta.env.VITE_API_URL + "/user", {
+        headers: { Authorization: "Bearer " + token },
+      });
+  */
+
   try {
-    const res = await fetch(
-      import.meta.env.VITE_API_URL + "/products/" + params.id
-    );
-    const data = await res.json();
+    const token = localStorage.getItem("token");
 
-    document.title = `${data[0].titulo}, ${data[0].autor} - Booket.market`;
+    if (token) {
+      const { data } = await axios.get(
+        import.meta.env.VITE_API_URL + "/products/" + params.id,
+        {
+          headers: { Authorization: "Bearer " + token },
+        }
+      );
 
-    return data[0];
+      document.title = `${data[0].titulo}, ${data[0].autor} - Booket.market`;
+
+      return data[0];
+    } else {
+      const { data } = await axios.get(
+        import.meta.env.VITE_API_URL + "/products/" + params.id
+      );
+
+      document.title = `${data[0].titulo}, ${data[0].autor} - Booket.market`;
+      return data[0];
+    }
   } catch (error) {
     console.log(error.message);
     return null;

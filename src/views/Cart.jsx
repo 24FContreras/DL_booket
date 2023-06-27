@@ -52,9 +52,7 @@ const Cart = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(session.cart.items);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -117,7 +115,10 @@ const Cart = () => {
           Total:{" "}
           {session.cart.items.length &&
             utils.formatearDivisa(
-              session.cart.items.reduce((a, b) => a + b.precio, 0)
+              session.cart.items.reduce(
+                (a, b) => a + b.precio * b.cantidadCompra,
+                0
+              )
             )}
         </p>
         <button className="btn btn-primary rounded-pill">Comprar</button>
