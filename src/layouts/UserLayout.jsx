@@ -30,7 +30,7 @@ const UserLayout = () => {
 
   useEffect(() => {
     if (datosUser) {
-      setSession({ ...session, ...datosUser[0] });
+      setSession({ ...session, active: true, ...datosUser });
     }
   }, []);
 
@@ -123,6 +123,7 @@ export const loaderUser = async () => {
       headers: { Authorization: "Bearer " + token },
     });
 
+    console.log(data);
     return { data };
   } catch (error) {
     console.log(error);

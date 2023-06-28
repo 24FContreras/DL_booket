@@ -21,7 +21,7 @@ const Product = () => {
         headers: { Authorization: "Bearer " + token },
       });
 
-      setSession({ ...session, active: true, ...data[0] });
+      setSession({ ...session, active: true, ...data });
       return { data };
     } catch (error) {
       console.log(error);
@@ -48,8 +48,9 @@ const Product = () => {
         currentCartItem.cantidadCompra += compra.cantidadCompra;
 
         const newCart = session.cart.items.filter((item) => item.id !== id);
-        newCart.push(compra);
+        newCart.push(currentCartItem);
         localStorage.setItem("booketCart", JSON.stringify({ items: newCart }));
+        setSession({ ...session, cart: { items: newCart } });
 
         toast.success(
           `Se ha agregado ${compra.cantidadCompra} unidad/es al carrito`,
@@ -83,23 +84,48 @@ const Product = () => {
   };
 
   const datos = { productID: id };
-  const agregarFavorito = async () => {
+
+  const handleFavorites = async () => {
+    const currentFavs = session.favorites;
+
     try {
-      await axios({
-        url: import.meta.env.VITE_API_URL + "/favorites",
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        data: datos,
-      });
+      if (currentFavs.find((item) => item.id_producto === id)) {
+        console.log("Favorito removido");
 
-      console.log("Favorito añadido");
+        const nuevosFavs = currentFavs.filter(
+          (item) => item.id_producto !== id
+        );
 
-      return true;
-    } catch (error) {
-      console.log(error);
-    }
+        const res = await axios({
+          url: import.meta.env.VITE_API_URL + "/favorites",
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          data: { productID: id },
+        });
+
+        setSession({
+          ...session,
+          favorites: nuevosFavs,
+        });
+      } else {
+        console.log("Favorito añadido");
+
+        const res = await axios({
+          url: import.meta.env.VITE_API_URL + "/favorites",
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          data: { productID: id },
+        });
+
+        currentFavs.push({ id_producto: id });
+
+        setSession({ ...session, favorites: currentFavs });
+      }
+    } catch (error) {}
   };
 
   const handleSubmit = (e) => {
@@ -193,9 +219,13 @@ const Product = () => {
                           </button>
                           <button
                             className="btn btn-primary w-100 mt-2"
-                            onClick={agregarFavorito}
+                            onClick={handleFavorites}
                           >
-                            Añadir a favoritos
+                            {session.favorites.find(
+                              (item) => item.id_producto === id
+                            )
+                              ? "Eliminar de favoritos"
+                              : " Añadir a favoritos"}
                           </button>
                         </>
                       ) : (
@@ -260,27 +290,12 @@ export const loaderBook = async ({ params }) => {
   */
 
   try {
-    const token = localStorage.getItem("token");
+    const { data } = await axios.get(
+      import.meta.env.VITE_API_URL + "/products/" + params.id
+    );
 
-    if (token) {
-      const { data } = await axios.get(
-        import.meta.env.VITE_API_URL + "/products/" + params.id,
-        {
-          headers: { Authorization: "Bearer " + token },
-        }
-      );
-
-      document.title = `${data[0].titulo}, ${data[0].autor} - Booket.market`;
-
-      return data[0];
-    } else {
-      const { data } = await axios.get(
-        import.meta.env.VITE_API_URL + "/products/" + params.id
-      );
-
-      document.title = `${data[0].titulo}, ${data[0].autor} - Booket.market`;
-      return data[0];
-    }
+    document.title = `${data[0].titulo}, ${data[0].autor} - Booket.market`;
+    return data[0];
   } catch (error) {
     console.log(error.message);
     return null;

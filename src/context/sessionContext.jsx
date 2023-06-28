@@ -8,6 +8,7 @@ const emptySession = {
   email: "",
   avatar: "default_avatar.png",
   cart: { items: [] },
+  favorites: [],
 };
 
 const SessionProvider = ({ children }) => {
