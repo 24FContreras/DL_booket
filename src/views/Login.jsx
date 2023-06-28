@@ -33,7 +33,7 @@ const Login = () => {
       } else {
         localStorage.setItem("token", data);
         localStorage.setItem("booketCart", JSON.stringify({ items: [] }));
-        setSession({ ...session, active: true });
+        setSession({ ...session, active: true, favorites: [] });
         navigate("/profile");
       }
     } catch ({ response: { data: err } }) {

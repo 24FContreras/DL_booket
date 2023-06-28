@@ -75,7 +75,9 @@ const Profile = () => {
         <div className="col">
           <div className="card">
             <div className="card-body">
-              <p className="m-0 fs-3 fw-semibold">{session.favorites.length}</p>
+              <p className="m-0 fs-3 fw-semibold">
+                {session.favorites.length || 0}
+              </p>
               <p className="m-0">Favoritos listados</p>
             </div>
           </div>
