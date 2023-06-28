@@ -28,6 +28,8 @@ const Profile = () => {
         },
         data: formData,
       });
+
+      setSession({ ...session });
     } catch (error) {
       console.log(error);
     }
@@ -40,11 +42,7 @@ const Profile = () => {
   return (
     <>
       <div className="d-flex align-items-end gap-2">
-        <img
-          src={`https://booketapi.onrender.com/images/avatars/${session.avatar}`}
-          className="profile-avatar"
-          alt="avatar"
-        />
+        <img src={session.avatar} className="profile-avatar" alt="avatar" />
         <div>
           <h1 className="m-0">Bienvenido {session.username}</h1>
         </div>

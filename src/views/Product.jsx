@@ -240,26 +240,6 @@ const Product = () => {
             </div>
 
             <ToastContainer />
-
-            {/*
-            <div className="row">
-              <h3>Preguntas</h3>
-              <form action="">
-                <label htmlFor="preguntaVendedor" className="form-label">
-                  Pregúntale al vendedor
-                </label>
-                <textarea
-                  className="form-control"
-                  id="preguntaVendedor"
-                  name="preguntaVendedor"
-                  rows="3"
-                ></textarea>
-                <button className="btn btn-primary" type="submit">
-                  Enviar
-                </button>
-              </form>
-            </div>
-          */}
           </main>
         </div>
       ) : (
@@ -279,16 +259,6 @@ export default Product;
 
 //LOADER
 export const loaderBook = async ({ params }) => {
-  /*
-    const token = localStorage.getItem("token");
-
-  const getSession = async () => {
-    try {
-      const { data } = await axios.get(import.meta.env.VITE_API_URL + "/user", {
-        headers: { Authorization: "Bearer " + token },
-      });
-  */
-
   try {
     const { data } = await axios.get(
       import.meta.env.VITE_API_URL + "/products/" + params.id
