@@ -13,3 +13,8 @@
 .register-btn {
   width: fit-content;
 }
+
+.register-main h1 {
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+}

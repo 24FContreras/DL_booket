@@ -86,7 +86,7 @@ const Register = () => {
       <div className="row">
         <section className="register-image col "></section>
         <section className="col p-4">
-          <h1 className="mb-4">Regístrate</h1>
+          <h1 className="mb-4 fs-3">Regístrate</h1>
           <form className="row row-cols-2 g-4" onSubmit={handlesubmit}>
             <div className="col">
               <label htmlFor="registerEmail" className="form-label">
