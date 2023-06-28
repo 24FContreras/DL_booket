@@ -63,9 +63,36 @@ const Profile = () => {
         </div>
       </form>
 
-      <h2>Stats</h2>
-      <p className="m-0">Publicaciones actuales: {session.publicaciones}</p>
-      <p className="m-0">Favoritos listados: {session.favorites.length}</p>
+      <div className="row row-cols-3">
+        <div className="col">
+          <div className="card">
+            <div className="card-body">
+              <p className="m-0 fs-3 fw-semibold">{session.publicaciones}</p>
+              <p className="m-0">Publicaciones creadas</p>
+            </div>
+          </div>
+        </div>
+        <div className="col">
+          <div className="card">
+            <div className="card-body">
+              <p className="m-0 fs-3 fw-semibold">{session.favorites.length}</p>
+              <p className="m-0">Favoritos listados</p>
+            </div>
+          </div>
+        </div>
+        <div className="col">
+          <div className="card">
+            <div className="card-body">
+              <p className="m-0 fs-3 fw-semibold">
+                {session.cart.items.length
+                  ? session.cart.items.reduce((a, b) => a + b.cantidadCompra, 0)
+                  : "0"}
+              </p>
+              <p className="m-0">Productos en el carro</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
