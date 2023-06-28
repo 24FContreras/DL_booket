@@ -19,7 +19,13 @@ const MyProducts = () => {
         <ul className="list-group list-group-flush">
           {myproducts.length ? (
             myproducts.map((item) => (
-              <ProductListing item={item} key={item.id} type="product">
+              <ProductListing
+                item={item}
+                key={item.id}
+                type="product"
+                state={myproducts}
+                changeState={setMyProducts}
+              >
                 <Link
                   className="btn btn-primary"
                   to={`/publicaciones/mispublicaciones/editar/${item.id}`}

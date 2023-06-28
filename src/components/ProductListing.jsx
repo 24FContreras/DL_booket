@@ -1,8 +1,16 @@
 import axios from "axios";
 import Likheart from "./Likeheart";
 import Swal from "sweetalert2";
+import { Outlet } from "react-router-dom";
 
-const ProductListing = ({ type, item, children, likeManager }) => {
+const ProductListing = ({
+  type,
+  item,
+  children,
+  likeManager,
+  state,
+  changeState,
+}) => {
   const token = localStorage.getItem("token");
 
   const customSwal = Swal.mixin({
@@ -13,10 +21,10 @@ const ProductListing = ({ type, item, children, likeManager }) => {
     },
     buttonsStyling: false,
     showClass: {
-      popup: "",
+      popup: "animate__animated animate__fadeIn animate__fast",
     },
     hideClass: {
-      popup: "",
+      popup: "animate__animated animate__fadeOut animate__fast",
     },
   });
 
@@ -38,6 +46,8 @@ const ProductListing = ({ type, item, children, likeManager }) => {
       customSwal.fire({
         text: res.data.message,
       });
+
+      changeState(state.filter((element) => element.id !== item.id));
     } catch (error) {
       console.log(error.message);
     }
