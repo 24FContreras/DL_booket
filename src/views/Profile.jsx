@@ -29,7 +29,8 @@ const Profile = () => {
         data: formData,
       });
 
-      setSession({ ...session });
+      const newURL = URL.createObjectURL(avatar);
+      setSession({ ...session, avatar: newURL });
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +42,7 @@ const Profile = () => {
 
   return (
     <>
-      <div className="d-flex align-items-end gap-2">
+      <div className="d-flex align-items-center gap-2">
         <img src={session.avatar} className="profile-avatar" alt="avatar" />
         <div>
           <h1 className="m-0">Bienvenido {session.username}</h1>
@@ -49,18 +50,22 @@ const Profile = () => {
       </div>
 
       <form method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
-        <div className="mb-3">
+        <div className="my-3">
           <input
             className="form-control form-control-sm"
             id="formFileSm"
             type="file"
             onChange={handleUpload}
           />
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary mt-3">
             Cambiar foto
           </button>
         </div>
       </form>
+
+      <h2>Stats</h2>
+      <p className="m-0">Publicaciones actuales: {session.publicaciones}</p>
+      <p className="m-0">Favoritos listados: {session.favorites.length}</p>
     </>
   );
 };
