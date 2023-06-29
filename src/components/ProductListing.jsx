@@ -32,15 +32,12 @@ const ProductListing = ({
     try {
       const endpoint = import.meta.env.VITE_API_URL + "/products/" + item.id;
 
-      console.log(endpoint);
-
       const res = await axios({
         url: endpoint,
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + token,
         },
-        data: { image: item.portada },
       });
 
       customSwal.fire({

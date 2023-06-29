@@ -51,7 +51,7 @@ const EditProduct = () => {
       }
 
       for (const key in nuevoLibro) {
-        if (key !== "username") {
+        if (key !== "username" && key !== "imageUrl") {
           bookData.append(key, nuevoLibro[key]);
         }
       }
