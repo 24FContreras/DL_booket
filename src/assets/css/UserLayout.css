@@ -1,3 +1,16 @@
 .user-layout-wrapper {
   min-height: calc(100vh - 3.5rem);
 }
+
+.main-window {
+  position: relative;
+}
+
+.menu-button {
+  position: absolute;
+  right: -1rem;
+  top: -1rem;
+  width: 2.5rem;
+  aspect-ratio: 1;
+  border-radius: 100%;
+}
