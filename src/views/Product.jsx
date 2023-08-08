@@ -150,24 +150,40 @@ const Product = () => {
   return (
     <>
       {data ? (
-        <div className="product-wrapper bg-secondary-subtle py-4">
-          <main className="product-main container p-4 shadow bg-white">
-            <div className="row g-5">
-              <div className="col col-3 rounded">
-                <img className="w-100" src={data.imageUrl} alt="" />
+        <div className="product-wrapper bg-secondary-subtle py-4 px-3 px-md-0">
+          <main className="product-main container p-4 shadow bg-white overflow-hidden">
+            <div className="row g-3 g-md-5">
+              <div className="col col-12 col-md-3 rounded d-flex justify-content-center align-items-start">
+                <img
+                  className="px-4 mx-5 mx-md-0 px-md-0 w-100"
+                  src={data.imageUrl}
+                  alt=""
+                />
               </div>
-              <div className="col col-6">
-                <p className="mb-1">
-                  <span className="badge bg-secondary">
-                    {data.estado.toUpperCase()}
-                  </span>{" "}
-                  | Vendido por {data.username}
-                </p>
-                <h1 className="m-0">{data.titulo}</h1>
-                <p className="lead mb-4">{data.autor}</p>
+              <div className="col col-12 col-md-6 order-3 order-md-2">
+                <div className="book-details d-none d-md-block">
+                  <p className="mb-1">
+                    <span className="badge bg-secondary">
+                      {data.estado.toUpperCase()}
+                    </span>{" "}
+                    | Vendido por {data.username}
+                  </p>
+                  <h1 className="m-0">{data.titulo}</h1>
+                  <p className="lead mb-4">{data.autor}</p>
+                </div>
                 <p className="product-summary">{data.descripcion}</p>
               </div>
-              <div className="col col-3 rounded">
+              <div className="col col-12 col-md-3 rounded order-2 order-md-3 text-center">
+                <div className="mobile-details d-block d-md-none">
+                  <p className="mb-1">
+                    <span className="badge bg-secondary">
+                      {data.estado.toUpperCase()}
+                    </span>{" "}
+                    | Vendido por {data.username}
+                  </p>
+                  <h1 className="m-0">{data.titulo}</h1>
+                  <p className="lead mb-4">{data.autor}</p>
+                </div>
                 <ul className="list-group list-group-flush product-details p-3">
                   <li className="list-group-item bg-transparent fs-5 fw-semibold">
                     Precio: {utils.formatearDivisa(data.precio)}

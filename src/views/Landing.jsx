@@ -32,7 +32,7 @@ const Landing = () => {
     <>
       <header className="container-fluid landing-header bg-black text-white">
         <div className="row">
-          <div className="col p-5">
+          <div className="col col-12 col-md-6 p-5">
             <h1>
               Tu próxima aventura está <br />{" "}
               <Link to="/products" className="header-link px-4">
@@ -45,7 +45,7 @@ const Landing = () => {
               ávidos lectores
             </p>
           </div>
-          <div className="col header-img"></div>
+          <div className="col col-12 col-md-6 header-img"></div>
         </div>
       </header>
 
